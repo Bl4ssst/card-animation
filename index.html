@@ -1,13 +1,12 @@
 <!DOCTYPE html>
-<html lang="en" >
+<html lang="pt-BR" >
 <head>
   <meta charset="UTF-8">
-  <title>CodePen - A Pen by Bl4ssst</title>
+  <title>Cartão de crédito</title>
   <link rel="stylesheet" href="./style.css">
 
 </head>
 <body>
-<!-- partial:index.partial.html -->
 <body>
   <h1>Igor</h1>
   <br>
@@ -21,13 +20,68 @@
       </div>
       <div class="footer">
         <p>Igor</p>
-        <img src="https://i.imgur.com/NrAuPcr.png" ="nubank">
+        <img src="https://i.imgur.com/NrAuPcr.png" alt="nubank">
       </div>
     </div>
   </div>
 </body>
-<!-- partial -->
-  <script  src="./script.js"></script>
+<script>
+  //variáel que vai armazenar o html do cartão
+  const card = document.querySelector('.container');
 
-</body>
+  //evento que vai ler a posição do mouse sobre o cartão
+  card.addEventListener("mousemove", cardEffect);
+  //evento que vai fazer o cartão resetar a posição quando o mouse sair
+  card.addEventListener("mouseleave", cardBack);
+  card.addEventListener("mouseenter", cardEnter);
+
+  function cardEffect(event)
+  {
+      //largura do cartão
+      const cardWidth = card.offsetWidth;
+      //altura do cartão
+      const cardHeight = card.offsetHeight;
+      //pixel central do cartão no eixo x
+      const centerX = card.offsetLeft + cardWidth/2;
+      //pixel central do cartão no eixo y
+      const centerY = card.offsetTop + cardHeight/2;
+      //posição do mouse no cartão no eixo x
+      const positionX = event.clientX - centerX;
+      //posição do mouse no catão no eixo y
+      const positionY = event.clientY - centerY;
+      
+      //variável que calcula o movimento do cartão no eixo x
+      const rotateX = ((+1)*25*positionY/(cardHeight/2)).toFixed(2);
+      //variável que calcula o movimento do cartão no eixo y
+      const rotateY = ((-1)*25*positionX/(cardWidth/2)).toFixed(2);
+
+      console.log(rotateX,rotateY);
+    
+      //comando que faz o cartão se mover
+      card.style.transform = `perspective(500px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+
+  }
+
+  function cardBack(event)
+  {
+     //animação que reseta a posição do cartão
+      card.style.transform = `perspective(500px) rotateX(0deg) rotateY(0deg)`;
+      cardTransition();
+  }
+
+  function cardTransition()
+  {   //adiciona trasinção na animaçao que reseta a posição do cartão
+      clearInterval(card.transitionId);
+      card.style.transition = 'transform 400ms';
+      card.transitionId = setTimeout(() => {
+          card.style.transition = '';
+      },400);
+  }
+
+  function cardEnter(event)
+  {
+    //a
+      cardTransition();
+  }
+</script>
 </html>
